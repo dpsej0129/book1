@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>우주의 이야기 챕터별 요약</title>
+  <style>
+    body { 
+      font-family: sans-serif; 
+      max-width: 700px; 
+      margin: 20px auto; 
+      padding: 10px; 
+      line-height: 1.6;
+    }
+    textarea { 
+      width: 100%; 
+      height: 100px; 
+      font-size: 16px; 
+      margin-bottom: 10px; 
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    button { 
+      font-size: 16px; 
+      padding: 6px 12px; 
+      cursor: pointer;
+    }
+    /* 챕터별 요약 스타일 */
+    .chapter-summary {
+      white-space: pre-wrap; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      line-height: 1.5; 
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .chapter-summary strong {
+      color: #2c7a7b;
+    }
+  </style>
+</head>
+<body>
+  <h1>우주의 이야기</h1>
+  <h2>챕터별 요약</h2>
+  <div class="chapter-summary">
+1장. <strong>우주의 테피스트리 (The Shores of the Cosmic Ocean)</strong>
+
+우주는 광활하며 인간은 그 일부다. 우주 탐험의 첫걸음을 소개한다.
+
+2장. <strong>하드 로드 (One Voice in the Cosmic Fugue)</strong>
+
+과학이 인류의 목소리를 우주에 내보내는 방법과 중요성을 다룬다.
+
+3장. <strong>천체 관찰자 (The Harmony of Worlds)</strong>
+
+고대부터 이어져 온 천체 관측과 행성의 움직임 법칙을 설명한다.
+
+4장. <strong>시간의 끈 (Heaven and Hell)</strong>
+
+우주와 지구의 탄생, 시간의 흐름과 인류 역사의 중요성을 탐구한다.
+
+5장. <strong>우주 속의 시간 (Blues for a Red Planet)</strong>
+
+화성 탐사와 태양계 행성들의 특성을 설명한다.
+
+6장. <strong>별들의 탄생 (Travellers’ Tales)</strong>
+
+별과 은하가 어떻게 형성되고 진화하는지 소개한다.
+
+7장. <strong>생명의 불꽃 (The Backbone of Night)</strong>
+
+생명의 기원과 진화 과정, 그리고 생명체가 우주에서 차지하는 의미를 탐구한다.
+
+8장. <strong>뇌와 정신 (Journeys in Space and Time)</strong>
+
+인간의 뇌와 정신, 의식의 출현과 과학적 탐구에 대해 설명한다.
+
+9장. <strong>문명의 진보 (The Lives of the Stars)</strong>
+
+과학 문명의 역사와 인류가 우주를 이해하기 위해 이룩한 성과를 다룬다.
+
+10장. <strong>어두운 우주 (The Edge of Forever)</strong>
+
+우주의 미래, 팽창, 그리고 시간과 공간의 끝에 대한 이론을 소개한다.
+
+11장. <strong>우주에서의 삶 (The Persistence of Memory)</strong>
+
+기억과 지식의 전승, 인류의 문화와 과학의 역할을 이야기한다.
+
+12장. <strong>우주의 책임 (Encyclopaedia Galactica)</strong>
+
+과학과 기술의 발전이 인류에 가져오는 책임과 윤리 문제를 다룬다.
+
+13장. <strong>우주와 인간 (Who Speaks for Earth?)</strong>
+
+우주의 광활함 속에서 인류가 나아가야 할 방향과 우주 탐사의 의미를 성찰한다.
+  </div>
+
+  <h2>리뷰 작성</h2>
+  <textarea id="review" placeholder="리뷰를 입력하세요"></textarea><br />
+  <button onclick="saveReview()">저장</button>
+
+  <h3>저장된 리뷰</h3>
+  <div id="reviewList"></div>
+
+  <script>
+    function saveReview() {
+      const review = document.getElementById('review').value;
+      if (review.trim() !== '') {
+        let reviews = localStorage.getItem('book1Reviews') || '';
+        reviews += `<p>${review}</p>`;
+        localStorage.setItem('book1Reviews', reviews);
+        document.getElementById('reviewList').innerHTML = reviews;
+        document.getElementById('review').value = '';
+      }
+    }
+    window.onload = () => {
+      document.getElementById('reviewList').innerHTML = localStorage.getItem('book1Reviews') || '';
+    };
+  </script>
+</body>
+</html>
