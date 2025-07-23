@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>아주 작은 습관의 힘</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 20px auto; padding: 10px; }
+    textarea { width: 100%; height: 100px; font-size: 16px; margin-bottom: 10px; }
+    button { font-size: 16px; padding: 6px 12px; }
+  </style>
+</head>
+<body>
+  <h1>아주 작은 습관의 힘</h1>
+  <h2>챕터별 요약</h2>
+  <ul>
+    <li>1장: 습관이 인생을 바꾼다</li>
+    <li>2장: 행동 변화의 4단계</li>
+    <li>3장: 습관 형성의 과학</li>
+    <li>4장: 좋은 습관 설계하기</li>
+    <li>5장: 나쁜 습관 없애기</li>
+  </ul>
 
+  <h2>리뷰 작성</h2>
+  <textarea id="review" placeholder="리뷰를 입력하세요"></textarea><br />
+  <button onclick="saveReview()">저장</button>
+
+  <h3>저장된 리뷰</h3>
+  <div id="reviewList"></div>
+
+  <script>
+    function saveReview() {
+      const review = document.getElementById('review').value;
+      if (review.trim() !== '') {
+        let reviews = localStorage.getItem('book1Reviews') || '';
+        reviews += `<p>${review}</p>`;
+        localStorage.setItem('book1Reviews', reviews);
+        document.getElementById('reviewList').innerHTML = reviews;
+        document.getElementById('review').value = '';
+      }
+    }
+    window.onload = () => {
+      document.getElementById('reviewList').innerHTML = localStorage.getItem('book1Reviews') || '';
+    };
+  </script>
+</body>
+</html>
