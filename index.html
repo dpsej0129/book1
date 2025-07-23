@@ -1,21 +1,141 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>책 요약 사이트</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>책 요약 & 리뷰 사이트</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 700px; margin: auto; }
-    a { display: block; margin: 10px 0; font-size: 18px; color: blue; }
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 10px;
+    }
+    h1 {
+      color: #2c7a7b;
+    }
+    select {
+      font-size: 16px;
+      padding: 6px 10px;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+    }
+    a {
+      text-decoration: none;
+      font-size: 18px;
+      color: #276749;
+      padding: 8px 14px;
+      border: 1px solid #276749;
+      border-radius: 6px;
+      display: inline-block;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    a:hover {
+      background-color: #276749;
+      color: white;
+    }
+    button#loadMore {
+      margin-top: 10px;
+      font-size: 16px;
+      padding: 8px 12px;
+      cursor: pointer;
+      background-color: #276749;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>📚 책 요약 & 리뷰</h1>
-  <p>책을 선택하세요:</p>
-  <a href="book1.html">1. 아주 작은 습관의 힘(자기계발)</a>
-  <a href="book2.html">2. 코스모스(과학)</a>
-  <a href="book3.html">3. 넛지(경제/경영)</a>
-  <a href="book4.html">4. 데미안(문학)</a>
-  <a href="book5.html">5. 총,균,쇠(역사)</a>
+  <h1>📚 카테고리별 책 선택하기</h1>
+
+  <label for="categorySelect">카테고리 선택: </label>
+  <select id="categorySelect">
+    <option value="">-- 카테고리 선택 --</option>
+    <option value="selfDevelopment">자기계발</option>
+    <option value="science">과학</option>
+    <option value="finance">금융</option>
+  </select>
+
+  <ul id="bookList"></ul>
+  <button id="loadMore">더 보기</button>
+
+  <script>
+    const booksByCategory = {
+      selfDevelopment: [
+        { title: "아주 작은 습관의 힘", file: "book1.html" },
+        { title: "몰입", file: "book2.html" },
+        { title: "성공하는 습관", file: "book6.html" },
+        { title: "동기부여의 과학", file: "book7.html" }
+      ],
+      science: [
+        { title: "총, 균, 쇠", file: "book5.html" },
+        { title: "메타인지", file: "book4.html" },
+        { title: "과학 혁명", file: "book8.html" }
+      ],
+      finance: [
+        { title: "부의 추월차선", file: "book3.html" },
+        { title: "돈 공부", file: "book9.html" },
+        { title: "재테크 전략", file: "book10.html" }
+      ]
+    };
+
+    const categorySelect = document.getElementById('categorySelect');
+    const bookList = document.getElementById('bookList');
+    const loadMoreBtn = document.getElementById('loadMore');
+
+    let currentCategory = '';
+    let currentIndex = 0;
+    const pageSize = 3;
+
+    function showBooks(category, start) {
+      const books = booksByCategory[category];
+      if (!books) return;
+
+      const end = Math.min(start + pageSize, books.length);
+      for(let i = start; i < end; i++) {
+        const book = books[i];
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = book.file;
+        a.textContent = book.title;
+        li.appendChild(a);
+        bookList.appendChild(li);
+      }
+
+      // 더보기 버튼 표시 여부
+      if (end < books.length) {
+        loadMoreBtn.style.display = 'inline-block';
+      } else {
+        loadMoreBtn.style.display = 'none';
+      }
+
+      currentIndex = end;
+    }
+
+    categorySelect.addEventListener('change', () => {
+      bookList.innerHTML = '';
+      currentCategory = categorySelect.value;
+      currentIndex = 0;
+      if (currentCategory) {
+        showBooks(currentCategory, currentIndex);
+      } else {
+        loadMoreBtn.style.display = 'none';
+      }
+    });
+
+    loadMoreBtn.addEventListener('click', () => {
+      if (currentCategory) {
+        showBooks(currentCategory, currentIndex);
+      }
+    });
+  </script>
 </body>
 </html>
