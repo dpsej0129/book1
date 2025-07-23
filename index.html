@@ -61,7 +61,9 @@
     <option value="">-- 카테고리 선택 --</option>
     <option value="selfDevelopment">자기계발</option>
     <option value="science">과학</option>
-    <option value="finance">금융</option>
+    <option value="business">경제/경영</option>
+    <option value="literature">문학</option>
+    <option value="history">역사</option>
   </select>
 
   <ul id="bookList"></ul>
@@ -80,10 +82,18 @@
         { title: "메타인지", file: "book4.html" },
         { title: "과학 혁명", file: "book8.html" }
       ],
-      finance: [
+      business: [
         { title: "부의 추월차선", file: "book3.html" },
         { title: "돈 공부", file: "book9.html" },
         { title: "재테크 전략", file: "book10.html" }
+      ],
+      literature: [
+        { title: "해변의 카프카", file: "book11.html" },
+        { title: "그리스인 조르바", file: "book12.html" }
+      ],
+      history: [
+        { title: "한국사 이야기", file: "book13.html" },
+        { title: "세계사 산책", file: "book14.html" }
       ]
     };
 
@@ -110,7 +120,6 @@
         bookList.appendChild(li);
       }
 
-      // 더보기 버튼 표시 여부
       if (end < books.length) {
         loadMoreBtn.style.display = 'inline-block';
       } else {
