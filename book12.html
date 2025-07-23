@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>죄와 벌 챕터별 요약</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 10px;
+      line-height: 1.6;
+    }
+    .chapter-summary {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    .chapter-summary strong {
+      color: #2c7a7b;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 16px;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    button {
+      font-size: 16px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    #reviewList {
+      margin-top: 15px;
+      background: #eef6f6;
+      border: 1px solid #c7e1e1;
+      padding: 10px;
+      border-radius: 6px;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>죄와 벌</h1>
+  <h2>챕터별 요약</h2>
+  <div class="chapter-summary">
+1부. <strong>라스콜니코프의 내적 갈등</strong><br />
+가난한 전학생 라스콜니코프가 자신을 특별한 존재라 여기며 범죄를 계획하고 실행한다.<br /><br />
+
+2부. <strong>죄책감과 혼란</strong><br />
+살인을 저지른 후 라스콜니코프는 죄책감과 정신적 혼란에 시달린다.<br /><br />
+
+3부. <strong>소냐와의 만남</strong><br />
+라스콜니코프는 순수하고 헌신적인 소냐를 만나 점차 변화의 실마리를 찾는다.<br /><br />
+
+4부. <strong>형사 포르피리의 심리전</strong><br />
+경찰 포르피리는 라스콜니코프를 심리적으로 압박하며 범인임을 암시한다.<br /><br />
+
+5부. <strong>내면의 투쟁과 고백</strong><br />
+라스콜니코프는 자신의 죄와 도덕적 갈등에 맞서 싸우며 결국 자백을 결심한다.<br /><br />
+
+6부. <strong>속죄와 구원</strong><br />
+수용소에서 소냐의 사랑과 믿음으로 라스콜니코프는 내적 구원과 변화를 경험한다.
+  </div>
+
+  <h2>리뷰 작성</h2>
+  <textarea id="review" placeholder="리뷰를 입력하세요"></textarea><br />
+  <button onclick="saveReview()">저장</button>
+
+  <h3>저장된 리뷰</h3>
+  <div id="reviewList"></div>
+
+  <script>
+    function saveReview() {
+      const reviewInput = document.getElementById('review');
+      const review = reviewInput.value.trim();
+      if (review === '') return;
+
+      let reviews = JSON.parse(localStorage.getItem('crimeAndPunishmentReviews') || '[]');
+      reviews.push(review);
+      localStorage.setItem('crimeAndPunishmentReviews', JSON.stringify(reviews));
+
+      reviewInput.value = '';
+      displayReviews();
+    }
+
+    function displayReviews() {
+      const reviewList = document.getElementById('reviewList');
+      let reviews = JSON.parse(localStorage.getItem('crimeAndPunishmentReviews') || '[]');
+      if (reviews.length === 0) {
+        reviewList.innerHTML = '<p>저장된 리뷰가 없습니다.</p>';
+        return;
+      }
+      reviewList.innerHTML = reviews.map(r => `<p>• ${r}</p>`).join('');
+    }
+
+    window.onload = displayReviews;
+  </script>
+</body>
+</html>
