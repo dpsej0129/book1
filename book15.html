@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>사피엔스 - 챕터 요약</title>
+  <title>역사의 연구 - 챕터 요약</title>
   <style>
     body {
       font-family: sans-serif;
@@ -47,38 +47,26 @@
   </style>
 </head>
 <body>
-  <h1>사피엔스</h1>
+  <h1>역사의 연구</h1>
   <h2>챕터별 요약</h2>
   <div class="chapter-summary">
-1장. <strong>인지 혁명</strong><br />
-약 7만 년 전, 인간은 언어와 상징을 사용하는 ‘인지 혁명’을 통해 다른 동물들과 구별되기 시작했다.<br /><br />
+1장. <strong>역사가와 사실</strong><br />
+역사는 단순한 과거 사실의 나열이 아니라, 역사가가 선택하고 해석한 사실로 구성된다.<br /><br />
 
-2장. <strong>사피엔스의 확장</strong><br />
-인지 능력을 기반으로 협력하고 조직화한 사피엔스는 지구 곳곳으로 확산되며 다른 인류종을 대체했다.<br /><br />
+2장. <strong>사회와 개인</strong><br />
+역사는 개인의 행위뿐 아니라 사회 전체의 맥락 속에서 이해되어야 하며, 개인과 사회는 분리될 수 없다.<br /><br />
 
-3장. <strong>농업 혁명</strong><br />
-약 1만 년 전, 인간은 농업을 시작했고 이는 인류의 생활 방식을 근본적으로 변화시켰다.<br /><br />
+3장. <strong>역사, 과학, 도덕</strong><br />
+역사는 과학처럼 논리적인 탐구이지만, 인간의 도덕성과 가치 판단이 개입될 수밖에 없다.<br /><br />
 
-4장. <strong>인간 사회의 형성</strong><br />
-종교, 신화, 법, 화폐 등의 ‘공동의 상상’이 대규모 사회를 조직할 수 있게 했다.<br /><br />
+4장. <strong>역사에서의 원인과 결과</strong><br />
+역사는 단순한 원인-결과 관계로 환원될 수 없으며, 복합적이고 다층적인 인과관계를 이해해야 한다.<br /><br />
 
-5장. <strong>제국의 등장</strong><br />
-인류는 제국을 통해 다양한 민족과 문화를 통합하며 질서를 유지하는 방법을 발전시켰다.<br /><br />
+5장. <strong>진보로서의 역사</strong><br />
+역사는 단절이 아닌 연속성과 발전의 흐름 속에서 이해되어야 하며, 인류의 진보를 반영한다.<br /><br />
 
-6장. <strong>과학 혁명</strong><br />
-약 500년 전 시작된 과학 혁명은 인류가 무지를 인식하고, 지식을 체계적으로 축적하게 했다.<br /><br />
-
-7장. <strong>자본주의의 부상</strong><br />
-신용과 금융 시스템의 발달은 자본주의 경제를 발전시키며 현대 사회의 중심이 되었다.<br /><br />
-
-8장. <strong>산업 혁명</strong><br />
-기계화와 에너지 혁신은 인류의 생산력과 생활 방식을 급격히 바꾸었다.<br /><br />
-
-9장. <strong>행복과 미래</strong><br />
-물질적으로 풍요로워졌지만, 인간이 더 행복해졌는지는 불분명하며, 기술 발전은 미래 인간을 새롭게 정의할 가능성이 있다.<br /><br />
-
-10장. <strong>인간의 다음 단계</strong><br />
-생명공학과 인공지능으로 인해, 사피엔스는 스스로를 창조하고 진화시킬 수 있는 존재로 나아가고 있다.
+6장. <strong>역사의 폭과 목적</strong><br />
+역사의 의미는 단순한 과거의 기록이 아니라 현재를 이해하고 미래를 준비하기 위한 탐구이며, 목적 있는 사고가 중요하다.
   </div>
 
   <h2>리뷰 작성</h2>
@@ -94,9 +82,9 @@
       const review = reviewInput.value.trim();
       if (review === '') return;
 
-      let reviews = JSON.parse(localStorage.getItem('sapiensReviews') || '[]');
+      let reviews = JSON.parse(localStorage.getItem('historyStudyReviews') || '[]');
       reviews.push(review);
-      localStorage.setItem('sapiensReviews', JSON.stringify(reviews));
+      localStorage.setItem('historyStudyReviews', JSON.stringify(reviews));
 
       reviewInput.value = '';
       displayReviews();
@@ -104,7 +92,7 @@
 
     function displayReviews() {
       const reviewList = document.getElementById('reviewList');
-      let reviews = JSON.parse(localStorage.getItem('sapiensReviews') || '[]');
+      let reviews = JSON.parse(localStorage.getItem('historyStudyReviews') || '[]');
       if (reviews.length === 0) {
         reviewList.innerHTML = '<p>저장된 리뷰가 없습니다.</p>';
         return;
