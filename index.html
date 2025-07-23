@@ -40,17 +40,6 @@
       background-color: #276749;
       color: white;
     }
-    button#loadMore {
-      margin-top: 10px;
-      font-size: 16px;
-      padding: 8px 12px;
-      cursor: pointer;
-      background-color: #276749;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -67,7 +56,6 @@
   </select>
 
   <ul id="bookList"></ul>
-  <button id="loadMore">더 보기</button>
 
   <script>
     const booksByCategory = {
@@ -89,60 +77,32 @@
       ],
       literature: [
         { title: "해변의 카프카", file: "book11.html" },
-        { title: "그리스인 조르바", file: "book12.html" }
+        { title: "그리스인 조르바", file: "book12.html" },
+        { title: "데미안", file: "book15.html" }
       ],
       history: [
         { title: "한국사 이야기", file: "book13.html" },
-        { title: "세계사 산책", file: "book14.html" }
+        { title: "세계사 산책", file: "book14.html" },
+        { title: "역사란 무엇인가", file: "book16.html" }
       ]
     };
 
     const categorySelect = document.getElementById('categorySelect');
     const bookList = document.getElementById('bookList');
-    const loadMoreBtn = document.getElementById('loadMore');
-
-    let currentCategory = '';
-    let currentIndex = 0;
-    const pageSize = 3;
-
-    function showBooks(category, start) {
-      const books = booksByCategory[category];
-      if (!books) return;
-
-      const end = Math.min(start + pageSize, books.length);
-      for(let i = start; i < end; i++) {
-        const book = books[i];
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = book.file;
-        a.textContent = book.title;
-        li.appendChild(a);
-        bookList.appendChild(li);
-      }
-
-      if (end < books.length) {
-        loadMoreBtn.style.display = 'inline-block';
-      } else {
-        loadMoreBtn.style.display = 'none';
-      }
-
-      currentIndex = end;
-    }
 
     categorySelect.addEventListener('change', () => {
       bookList.innerHTML = '';
-      currentCategory = categorySelect.value;
-      currentIndex = 0;
-      if (currentCategory) {
-        showBooks(currentCategory, currentIndex);
-      } else {
-        loadMoreBtn.style.display = 'none';
-      }
-    });
-
-    loadMoreBtn.addEventListener('click', () => {
-      if (currentCategory) {
-        showBooks(currentCategory, currentIndex);
+      const selected = categorySelect.value;
+      if (selected && booksByCategory[selected]) {
+        // 딱 3권만 보여주기
+        booksByCategory[selected].slice(0, 3).forEach(book => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = book.file;
+          a.textContent = book.title;
+          li.appendChild(a);
+          bookList.appendChild(li);
+        });
       }
     });
   </script>
