@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>총, 균, 쇠 챕터별 요약</title>
+  <style>
+    body { 
+      font-family: sans-serif; 
+      max-width: 700px; 
+      margin: 20px auto; 
+      padding: 10px; 
+      line-height: 1.6;
+    }
+    textarea { 
+      width: 100%; 
+      height: 100px; 
+      font-size: 16px; 
+      margin-bottom: 10px; 
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    button { 
+      font-size: 16px; 
+      padding: 6px 12px; 
+      cursor: pointer;
+    }
+    .chapter-summary {
+      white-space: pre-wrap; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      line-height: 1.5; 
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .chapter-summary strong {
+      color: #2c7a7b;
+    }
+  </style>
+</head>
+<body>
+  <h1>총, 균, 쇠</h1>
+  <h2>챕터별 요약</h2>
+  <div class="chapter-summary">
+1장. <strong>문명의 차이를 묻다</strong>
+
+왜 어떤 문명은 다른 문명보다 더 빠르게 발전했는가? 이 질문에서 출발한다.
+
+2장. <strong>식량 생산의 시작</strong>
+
+농업과 가축화가 인류 문명 발전의 기초가 되었다.
+
+3장. <strong>동식물 가축화</strong>
+
+어떤 동식물이 가축화에 적합했는지, 그리고 그 이유를 탐구한다.
+
+4장. <strong>병원균과 면역</strong>
+
+가축과의 밀접한 접촉으로 병원균에 대한 면역이 생겨, 문명 간 힘의 차이를 만들었다.
+
+5장. <strong>기술과 무기</strong>
+
+총과 같은 기술이 문명 간 정복과 지배에 중요한 역할을 했다.
+
+6장. <strong>문명의 확산</strong>
+
+지리적 환경과 대륙의 배열이 문명의 확산 속도와 방향을 결정했다.
+
+7장. <strong>환경과 사회구조</strong>
+
+기후와 환경이 사회 조직과 정치 발전에 미친 영향을 살펴본다.
+
+8장. <strong>유라시아의 이점</strong>
+
+유라시아 대륙의 가로축 구조가 농업과 문명 확산에 유리했다.
+
+9장. <strong>아프리카와 아메리카의 차이</strong>
+
+대륙별 환경 차이가 기술과 문명 발전 속도의 차이를 낳았다.
+
+10장. <strong>문명 발전의 결정요인</strong>
+
+유전적 차이가 아닌 환경, 기술, 전염병이 문명 발전을 결정했다.
+  </div>
+
+  <h2>리뷰 작성</h2>
+  <textarea id="review" placeholder="리뷰를 입력하세요"></textarea><br />
+  <button onclick="saveReview()">저장</button>
+
+  <h3>저장된 리뷰</h3>
+  <div id="reviewList"></div>
+
+  <script>
+    function saveReview() {
+      const review = document.getElementById('review').value;
+      if (review.trim() !== '') {
+        let reviews = localStorage.getItem('book1Reviews') || '';
+        reviews += `<p>${review}</p>`;
+        localStorage.setItem('book1Reviews', reviews);
+        document.getElementById('reviewList').innerHTML = reviews;
+        document.getElementById('review').value = '';
+      }
+    }
+    window.onload = () => {
+      document.getElementById('reviewList').innerHTML = localStorage.getItem('book1Reviews') || '';
+    };
+  </script>
+</body>
+</html>
