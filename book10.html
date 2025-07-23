@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>돈의 심리학 챕터별 요약</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 10px;
+      line-height: 1.6;
+    }
+    .chapter-summary {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    .chapter-summary strong {
+      color: #2c7a7b;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 16px;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    button {
+      font-size: 16px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    #reviewList {
+      margin-top: 15px;
+      background: #eef6f6;
+      border: 1px solid #c7e1e1;
+      padding: 10px;
+      border-radius: 6px;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>돈의 심리학</h1>
+  <h2>챕터별 요약</h2>
+  <div class="chapter-summary">
+1장. <strong>행운과 위험</strong><br />
+돈에 있어 행운과 위험은 항상 함께하며, 이를 인지하고 관리하는 것이 중요하다.<br /><br />
+
+2장. <strong>합리적이지 않은 행동</strong><br />
+사람들은 금융적 선택에서 종종 비합리적이며, 감정과 심리가 큰 영향을 미친다.<br /><br />
+
+3장. <strong>부의 정의</strong><br />
+부는 단순히 돈의 액수가 아니라, 자유와 선택권을 의미한다.<br /><br />
+
+4장. <strong>지연 만족</strong><br />
+성공적인 금융 생활은 단기 욕구를 참는 능력, 즉 지연 만족에서 나온다.<br /><br />
+
+5장. <strong>복리의 마법</strong><br />
+복리는 시간이 지날수록 자산이 기하급수적으로 증가하는 힘이다.<br /><br />
+
+6장. <strong>불확실성과 인내</strong><br />
+투자와 재정 계획은 불확실성을 견디는 인내심이 필요하다.<br /><br />
+
+7장. <strong>만족과 비교</strong><br />
+행복한 재정 생활은 자신의 기준을 세우고 남과 비교하지 않는 데서 온다.<br /><br />
+
+8장. <strong>자신만의 계획</strong><br />
+다른 사람의 성공 방식을 모방하기보다는 자신에게 맞는 재정 전략이 중요하다.
+  </div>
+
+  <h2>리뷰 작성</h2>
+  <textarea id="review" placeholder="리뷰를 입력하세요"></textarea><br />
+  <button onclick="saveReview()">저장</button>
+
+  <h3>저장된 리뷰</h3>
+  <div id="reviewList"></div>
+
+  <script>
+    function saveReview() {
+      const reviewInput = document.getElementById('review');
+      const review = reviewInput.value.trim();
+      if (review === '') return;
+
+      let reviews = JSON.parse(localStorage.getItem('moneyPsychologyReviews') || '[]');
+      reviews.push(review);
+      localStorage.setItem('moneyPsychologyReviews', JSON.stringify(reviews));
+
+      reviewInput.value = '';
+      displayReviews();
+    }
+
+    function displayReviews() {
+      const reviewList = document.getElementById('reviewList');
+      let reviews = JSON.parse(localStorage.getItem('moneyPsychologyReviews') || '[]');
+      if (reviews.length === 0) {
+        reviewList.innerHTML = '<p>저장된 리뷰가 없습니다.</p>';
+        return;
+      }
+      reviewList.innerHTML = reviews.map(r => `<p>• ${r}</p>`).join('');
+    }
+
+    window.onload = displayReviews;
+  </script>
+</body>
+</html>
