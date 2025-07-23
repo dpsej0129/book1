@@ -3,35 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>미라클 모닝</title>
+  <title>그릿 챕터별 요약</title>
   <style>
-    body { font-family: sans-serif; max-width: 700px; margin: 20px auto; padding: 10px; }
-    h1, h2 { color: #333; }
-    li { margin-bottom: 10px; }
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 10px;
+      line-height: 1.6;
+    }
+    .chapter-summary {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    .chapter-summary strong {
+      color: #2c7a7b;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 16px;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    button {
+      font-size: 16px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    #reviewList {
+      margin-top: 15px;
+      background: #eef6f6;
+      border: 1px solid #c7e1e1;
+      padding: 10px;
+      border-radius: 6px;
+      min-height: 50px;
+    }
   </style>
 </head>
 <body>
-  <h1>미라클 모닝</h1>
-  <h2>챕터 요약</h2>
-  <ul>
-    <li>✅ 1장. 두 번째 기회 – 교통사고 후 삶을 바꾸려는 결심</li>
-    <li>✅ 2장. 평균적인 삶의 함정 – 자기 믿음 부족, 낮은 기준 등이 원인</li>
-    <li>✅ 3장. 왜 아침인가? – 하루의 방향을 결정짓는 시간</li>
-    <li>✅ 4장. 미라클 모닝의 힘 – 아침 루틴이 인생을 바꾼다</li>
-    <li>
-      ✅ 5장. S.A.V.E.R.S 루틴<br/>
-      <ul>
-        <li>S - Silence (침묵)</li>
-        <li>A - Affirmations (확언)</li>
-        <li>V - Visualization (시각화)</li>
-        <li>E - Exercise (운동)</li>
-        <li>R - Reading (독서)</li>
-        <li>S - Scribing (쓰기)</li>
-      </ul>
-    </li>
-    <li>✅ 6장. 게으름과 싸우는 법 – 침대 유혹과 목표 부족 극복하기</li>
-    <li>✅ 7장. 30일 변화 도전법 – 3단계로 습관 형성</li>
-    <li>✅ 8장. 당신만의 미라클 모닝 – 개인 맞춤형 루틴 구성</li>
-  </ul>
+  <h1>그릿</h1>
+  <h2>챕터별 요약</h2>
+  <div class="chapter-summary">
+1장. <strong>그릿: 열정과 끈기의 힘</strong><br />
+성공은 재능보다 열정과 끈기가 중요하며, 꾸준한 노력이 성취를 만든다.<br /><br />
+
+2장. <strong>재능보다 노력이 중요하다</strong><br />
+재능과 노력의 곱으로 실력이 결정되고, 노력의 곱으로 성취가 결정된다.<br /><br />
+
+3장. <strong>관심: 좋아하는 것을 오래 하기</strong><br />
+진정한 열정은 오랜 시간 동안 관심을 유지하며 키워야 생긴다.<br /><br />
+
+4장. <strong>연습: 의식적인 훈련</strong><br />
+의도적인 연습을 지속해야 실력이 향상되고 그릿이 강해진다.<br /><br />
+
+5장. <strong>목적: 더 큰 의미를 추구하기</strong><br />
+자신의 노력이 타인에게 긍정적 영향을 준다고 믿을 때 그릿이 강화된다.<br /><br />
+
+6장. <strong>희망: 실패해도 다시 일어서는 힘</strong><br />
+실패와 어려움 속에서도 다시 일어서는 회복력과 자기 신뢰가 중요하다.<br /><br />
+
+7장. <strong>부모와 교사의 역할</strong><br />
+높은 기대와 따뜻한 지지가 함께 있을 때 그릿이 자란다.<br /><br />
+
+8장. <strong>그릿 문화 만들기</strong><br />
+포기하지 않는 문화를 가진 환경에서 개인의 그릿도 성장한다.<br /><br />
+
+9장. <strong>그릿은 개발할 수 있다</strong><br />
+그릿은 타고난 성격이 아니라 훈련과 경험을 통해 키울 수 있다.<br /><br />
+
+10장. <strong>그릿의 한계</strong><br />
+과도한 집착은 해로울 수 있으며, 올바른 목표 선택이 중요하다.
+  </div>
+
+  <h2>리뷰 작성</h2>
+  <textarea id="review" placeholder="리뷰를 입력하세요"></textarea><br />
+  <button onclick="saveReview()">저장</button>
+
+  <h3>저장된 리뷰</h3>
+  <div id="reviewList"></div>
+
+  <script>
+    function saveReview() {
+      const reviewInput = document.getElementById('review');
+      const review = reviewInput.value.trim();
+      if (review === '') return;
+
+      let reviews = JSON.parse(localStorage.getItem('gritReviews') || '[]');
+      reviews.push(review);
+      localStorage.setItem('gritReviews', JSON.stringify(reviews));
+
+      reviewInput.value = '';
+      displayReviews();
+    }
+
+    function displayReviews() {
+      const reviewList = document.getElementById('reviewList');
+      let reviews = JSON.parse(localStorage.getItem('gritReviews') || '[]');
+      if (reviews.length === 0) {
+        reviewList.innerHTML = '<p>저장된 리뷰가 없습니다.</p>';
+        return;
+      }
+      reviewList.innerHTML = reviews.map(r => `<p>• ${r}</p>`).join('');
+    }
+
+    window.onload = displayReviews;
+  </script>
 </body>
 </html>
