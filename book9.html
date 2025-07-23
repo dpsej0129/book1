@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>이기적 유전자 챕터별 요약</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 10px;
+      line-height: 1.6;
+    }
+    .chapter-summary {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    .chapter-summary strong {
+      color: #2c7a7b;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 16px;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    button {
+      font-size: 16px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    #reviewList {
+      margin-top: 15px;
+      background: #eef6f6;
+      border: 1px solid #c7e1e1;
+      padding: 10px;
+      border-radius: 6px;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>이기적 유전자</h1>
+  <h2>챕터별 요약</h2>
+  <div class="chapter-summary">
+1장. <strong>유전자 중심의 진화</strong><br />
+진화는 개체가 아니라 유전자의 관점에서 이해해야 하며, 유전자는 자신의 복제를 위해 행동한다.<br /><br />
+
+2장. <strong>유전자의 복제기계</strong><br />
+생명체는 유전자를 복제하는 ‘복제기계’이며, 유전자는 자신을 생존시키기 위한 전략을 가진다.<br /><br />
+
+3장. <strong>이기적 유전자의 행동</strong><br />
+유전자는 자신의 복제를 최우선으로 하며, 이를 위해 다양한 행동 전략을 만든다.<br /><br />
+
+4장. <strong>협력과 이타주의</strong><br />
+겉으로는 이타적인 행동도 사실은 유전자의 자기 이익을 위한 협력 전략일 수 있다.<br /><br />
+
+5장. <strong>게임 이론과 진화 전략</strong><br />
+동물의 행동은 게임 이론으로 설명 가능하며, 안정적인 진화 전략이 선택된다.<br /><br />
+
+6장. <strong>문화와 유전자</strong><br />
+인간 문화는 유전자와 상호작용하며, 문화 진화는 유전자의 진화와 병행한다.<br /><br />
+
+7장. <strong>인간 본성에 대한 통찰</strong><br />
+유전자의 관점에서 인간 행동을 해석하며, 도덕과 윤리의 기초를 탐구한다.
+  </div>
+
+  <h2>리뷰 작성</h2>
+  <textarea id="review" placeholder="리뷰를 입력하세요"></textarea><br />
+  <button onclick="saveReview()">저장</button>
+
+  <h3>저장된 리뷰</h3>
+  <div id="reviewList"></div>
+
+  <script>
+    function saveReview() {
+      const reviewInput = document.getElementById('review');
+      const review = reviewInput.value.trim();
+      if (review === '') return;
+
+      let reviews = JSON.parse(localStorage.getItem('selfishGeneReviews') || '[]');
+      reviews.push(review);
+      localStorage.setItem('selfishGeneReviews', JSON.stringify(reviews));
+
+      reviewInput.value = '';
+      displayReviews();
+    }
+
+    function displayReviews() {
+      const reviewList = document.getElementById('reviewList');
+      let reviews = JSON.parse(localStorage.getItem('selfishGeneReviews') || '[]');
+      if (reviews.length === 0) {
+        reviewList.innerHTML = '<p>저장된 리뷰가 없습니다.</p>';
+        return;
+      }
+      reviewList.innerHTML = reviews.map(r => `<p>• ${r}</p>`).join('');
+    }
+
+    window.onload = displayReviews;
+  </script>
+</body>
+</html>
