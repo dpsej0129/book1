@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>좋은 기업을 넘어 위대한 기업으로 챕터별 요약</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 10px;
+      line-height: 1.6;
+    }
+    .chapter-summary {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    .chapter-summary strong {
+      color: #2c7a7b;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      font-size: 16px;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    button {
+      font-size: 16px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    #reviewList {
+      margin-top: 15px;
+      background: #eef6f6;
+      border: 1px solid #c7e1e1;
+      padding: 10px;
+      border-radius: 6px;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>좋은 기업을 넘어 위대한 기업으로</h1>
+  <h2>챕터별 요약</h2>
+  <div class="chapter-summary">
+1장. <strong>위대한 기업의 조건</strong><br />
+좋은 기업과 위대한 기업의 차이는 리더십과 꾸준한 실행력에 있다.<br /><br />
+
+2장. <strong>레벨 5 리더십</strong><br />
+위대한 기업은 겸손하면서도 의지가 강한 ‘레벨 5 리더’가 이끈다.<br /><br />
+
+3장. <strong>먼저 사람을 얻고, 그 다음에 방향을 정하라</strong><br />
+올바른 사람을 모은 후에 전략과 방향을 설정하는 것이 성공의 핵심이다.<br /><br />
+
+4장. <strong>현실을 직시하라</strong><br />
+문제를 외면하지 않고 냉정하게 직시하는 것이 성장의 밑바탕이다.<br /><br />
+
+5장. <strong>고슴도치 개념</strong><br />
+단순하지만 핵심적인 ‘고슴도치 개념’을 찾아 집중해야 한다.<br /><br />
+
+6장. <strong>문화 속의 규율</strong><br />
+자율과 규율이 균형 잡힌 조직 문화가 위대한 성과를 만든다.<br /><br />
+
+7장. <strong>기술 가속기</strong><br />
+기술은 도구일 뿐이며, 올바른 전략과 문화가 기술 활용을 결정한다.<br /><br />
+
+8장. <strong>지속 가능한 발전</strong><br />
+위대한 기업은 ‘비행기 바퀴 효과’를 통해 꾸준히 성장하며 발전한다.
+  </div>
+
+  <h2>리뷰 작성</h2>
+  <textarea id="review" placeholder="리뷰를 입력하세요"></textarea><br />
+  <button onclick="saveReview()">저장</button>
+
+  <h3>저장된 리뷰</h3>
+  <div id="reviewList"></div>
+
+  <script>
+    function saveReview() {
+      const reviewInput = document.getElementById('review');
+      const review = reviewInput.value.trim();
+      if (review === '') return;
+
+      let reviews = JSON.parse(localStorage.getItem('greatCompaniesReviews') || '[]');
+      reviews.push(review);
+      localStorage.setItem('greatCompaniesReviews', JSON.stringify(reviews));
+
+      reviewInput.value = '';
+      displayReviews();
+    }
+
+    function displayReviews() {
+      const reviewList = document.getElementById('reviewList');
+      let reviews = JSON.parse(localStorage.getItem('greatCompaniesReviews') || '[]');
+      if (reviews.length === 0) {
+        reviewList.innerHTML = '<p>저장된 리뷰가 없습니다.</p>';
+        return;
+      }
+      reviewList.innerHTML = reviews.map(r => `<p>• ${r}</p>`).join('');
+    }
+
+    window.onload = displayReviews;
+  </script>
+</body>
+</html>
