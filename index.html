@@ -14,10 +14,13 @@
     h1 {
       color: #2c7a7b;
     }
-    select {
+    input[type="text"] {
+      width: 100%;
       font-size: 16px;
-      padding: 6px 10px;
-      margin-bottom: 20px;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
     ul {
       list-style: none;
@@ -43,67 +46,63 @@
   </style>
 </head>
 <body>
-  <h1>📚 카테고리</h1>
-
-  <label for="categorySelect">카테고리: </label>
-  <select id="categorySelect">
-    <option value="">-- 카테고리 선택 --</option>
-    <option value="selfDevelopment">자기계발</option>
-    <option value="science">과학</option>
-    <option value="business">경제/경영</option>
-    <option value="literature">문학</option>
-    <option value="history">역사</option>
-  </select>
+  <h1>📚 책 검색</h1>
+  <input type="text" id="searchInput" placeholder="책 제목 또는 카테고리를 입력하세요" />
 
   <ul id="bookList"></ul>
 
   <script>
-    const booksByCategory = {
-      selfDevelopment: [
-        { title: "아주 작은 습관의 힘", file: "book1.html" },
-        { title: "미라클 모닝", file: "book6.html" },
-        { title: "그릿", file: "book7.html" }
-      ],
-      science: [
-        { title: "코스모스", file: "book2.html" },
-        { title: "시간의 역사", file: "book8.html" },
-        { title: "이기적 유전자", file: "book9.html" }
-      ],
-      business: [
-        { title: "넛지", file: "book3.html" },
-        { title: "돈의 심리학", file: "book10.html" },
-        { title: "좋은 기업을 넘어 위대한 기업으로", file: "book11.html" }
-      ],
-      literature: [
-        { title: "데미안", file: "book4.html" },
-        { title: "죄와 벌", file: "book12.html" },
-        { title: "작별하지 않는다", file: "book13.html" }
-      ],
-      history: [
-        { title: "총, 균, 쇠", file: "book5.html" },
-        { title: "사피엔스", file: "book14.html" },
-        { title: "역사의 연구", file: "book15.html" }
-      ]
-    };
+    const books = [
+      { title: "아주 작은 습관의 힘", file: "book1.html", category: "자기계발" },
+      { title: "미라클 모닝", file: "book6.html", category: "자기계발" },
+      { title: "그릿", file: "book7.html", category: "자기계발" },
+      { title: "코스모스", file: "book2.html", category: "과학" },
+      { title: "시간의 역사", file: "book8.html", category: "과학" },
+      { title: "이기적 유전자", file: "book9.html", category: "과학" },
+      { title: "넛지", file: "book3.html", category: "경제/경영" },
+      { title: "돈의 심리학", file: "book10.html", category: "경제/경영" },
+      { title: "좋은 기업을 넘어 위대한 기업으로", file: "book11.html", category: "경제/경영" },
+      { title: "데미안", file: "book4.html", category: "문학" },
+      { title: "죄와 벌", file: "book12.html", category: "문학" },
+      { title: "작별하지 않는다", file: "book13.html", category: "문학" },
+      { title: "총, 균, 쇠", file: "book5.html", category: "역사" },
+      { title: "사피엔스", file: "book14.html", category: "역사" },
+      { title: "역사의 연구", file: "book15.html", category: "역사" }
+    ];
 
-    const categorySelect = document.getElementById('categorySelect');
+    const searchInput = document.getElementById('searchInput');
     const bookList = document.getElementById('bookList');
 
-    categorySelect.addEventListener('change', () => {
+    function displayBooks(filteredBooks) {
       bookList.innerHTML = '';
-      const selected = categorySelect.value;
-      if (selected && booksByCategory[selected]) {
-        // 딱 3권만 보여주기
-        booksByCategory[selected].slice(0, 3).forEach(book => {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          a.href = book.file;
-          a.textContent = book.title;
-          li.appendChild(a);
-          bookList.appendChild(li);
-        });
+      if (filteredBooks.length === 0) {
+        bookList.innerHTML = '<li>검색 결과가 없습니다.</li>';
+        return;
       }
+
+      filteredBooks.forEach(book => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = book.file;
+        a.textContent = `${book.title} (${book.category})`;
+        li.appendChild(a);
+        bookList.appendChild(li);
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim().toLowerCase();
+
+      const filtered = books.filter(book =>
+        book.title.toLowerCase().includes(query) ||
+        book.category.toLowerCase().includes(query)
+      );
+
+      displayBooks(filtered);
     });
+
+    // 초기엔 모든 책을 보여주고 싶다면 아래 줄 추가
+    displayBooks(books);
   </script>
 </body>
 </html>
