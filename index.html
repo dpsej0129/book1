@@ -6,50 +6,109 @@
   <title>책 요약 & 리뷰 사이트</title>
   <style>
     body {
-      font-family: sans-serif;
-      max-width: 700px;
-      margin: 20px auto;
-      padding: 10px;
-    }
-    h1 {
-      color: #2c7a7b;
-    }
-    input[type="text"] {
-      width: 100%;
-      font-size: 16px;
-      padding: 10px;
-      margin: 10px 0 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    ul {
-      list-style: none;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #f7fafc;
+      margin: 0;
       padding: 0;
     }
-    li {
-      margin: 10px 0;
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    a {
-      text-decoration: none;
-      font-size: 18px;
-      color: #276749;
-      padding: 8px 14px;
-      border: 1px solid #276749;
-      border-radius: 6px;
+
+    h1 {
+      text-align: center;
+      color: #2b6cb0;
+      margin-bottom: 30px;
+    }
+
+    #searchInput {
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    #searchInput:focus {
+      border-color: #2b6cb0;
+    }
+
+    #showAllBtn {
       display: inline-block;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    a:hover {
-      background-color: #276749;
+      background-color: #2b6cb0;
       color: white;
+      padding: 10px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-bottom: 20px;
+    }
+
+    #showAllBtn:hover {
+      background-color: #2c5282;
+    }
+
+    .book-card {
+      background-color: #edf2f7;
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .book-card:hover {
+      background-color: #e2e8f0;
+    }
+
+    .book-link {
+      text-decoration: none;
+      color: #2c5282;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .category-tag {
+      font-size: 14px;
+      color: #718096;
+      margin-top: 4px;
+    }
+
+    .no-result {
+      text-align: center;
+      color: #718096;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .book-link {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>📚 책 검색</h1>
-  <input type="text" id="searchInput" placeholder="책 제목 또는 카테고리를 입력하세요" />
-
-  <ul id="bookList"></ul>
+  <div class="container">
+    <h1>📚 책 검색</h1>
+    <input type="text" id="searchInput" placeholder="책 제목 또는 카테고리를 입력하세요" />
+    <button id="showAllBtn">📖 모든 책 보기</button>
+    <div id="bookList"></div>
+  </div>
 
   <script>
     const books = [
@@ -72,21 +131,31 @@
 
     const searchInput = document.getElementById('searchInput');
     const bookList = document.getElementById('bookList');
+    const showAllBtn = document.getElementById('showAllBtn');
 
     function displayBooks(filteredBooks) {
       bookList.innerHTML = '';
       if (filteredBooks.length === 0) {
-        bookList.innerHTML = '<li>검색 결과가 없습니다.</li>';
+        bookList.innerHTML = '<div class="no-result">검색 결과가 없습니다.</div>';
         return;
       }
 
       filteredBooks.forEach(book => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = book.file;
-        a.textContent = `${book.title} (${book.category})`;
-        li.appendChild(a);
-        bookList.appendChild(li);
+        const card = document.createElement('div');
+        card.className = 'book-card';
+
+        const link = document.createElement('a');
+        link.href = book.file;
+        link.className = 'book-link';
+        link.textContent = book.title;
+
+        const category = document.createElement('div');
+        category.className = 'category-tag';
+        category.textContent = `카테고리: ${book.category}`;
+
+        card.appendChild(link);
+        card.appendChild(category);
+        bookList.appendChild(card);
       });
     }
 
@@ -101,8 +170,9 @@
       displayBooks(filtered);
     });
 
-    // 초기엔 모든 책을 보여주고 싶다면 아래 줄 추가
-    displayBooks(books);
+    showAllBtn.addEventListener('click', () => {
+      displayBooks(books);
+    });
   </script>
 </body>
 </html>
