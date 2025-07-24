@@ -3,154 +3,165 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>책 검색 & 리뷰</title>
+  <title>책 요약 & 리뷰</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      max-width: 800px;
-      margin: 20px auto;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
       padding: 20px;
-      background-color: #f9f9f9;
+      max-width: 800px;
+      margin: auto;
     }
-
     h1 {
-      color: #2c3e50;
       text-align: center;
-      margin-bottom: 30px;
+      color: #333;
     }
-
-    #searchInput {
+    input, select {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      margin-bottom: 20px;
-      box-sizing: border-box;
     }
-
-    #showAllBtn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      background-color: #3498db;
+    button {
+      background: #4CAF50;
       color: white;
-      font-size: 16px;
+      padding: 10px 15px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      margin-bottom: 20px;
     }
-
-    #showAllBtn:hover {
-      background-color: #2980b9;
+    button:hover {
+      background-color: #45a049;
     }
-
-    .book-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
-
-    .book-card {
+    .book {
       background: white;
-      border: 1px solid #ddd;
-      padding: 16px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-
-    .book-card:hover {
-      transform: scale(1.02);
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
     }
-
-    .book-title {
-      font-size: 18px;
-      color: #2c3e50;
-      margin-bottom: 8px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .book-category {
-      font-size: 14px;
-      color: #888;
+    #recentBooks {
+      background-color: #fff8dc;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
-  <h1>📚 책 검색 & 리뷰</h1>
+  <h1>📖 책 요약 & 리뷰</h1>
 
-  <input type="text" id="searchInput" placeholder="책 제목이나 카테고리를 검색하세요..." />
+  <input type="text" id="search" placeholder="책 제목 또는 카테고리 검색" />
+  <select id="categoryFilter">
+    <option value="">전체 카테고리</option>
+    <option value="자기계발">자기계발</option>
+    <option value="역사">역사</option>
+    <option value="과학">과학</option>
+  </select>
+  <button id="showAll">모든 책 보기</button>
 
-  <button id="showAllBtn">모든 책 보기</button>
+  <div id="bookList"></div>
 
-  <div class="book-list" id="bookList"></div>
+  <div id="recentBooks" style="display: none;">
+    <h3>📚 최근 본 책</h3>
+    <ul id="recentList"></ul>
+  </div>
 
   <script>
     const books = [
-      { title: "아주 작은 습관의 힘", category: "자기계발", file: "book1.html" },
-      { title: "미라클 모닝", category: "자기계발", file: "book2.html" },
-      { title: "그릿", category: "자기계발", file: "book3.html" },
-      { title: "코스모스", category: "과학", file: "book4.html" },
-      { title: "시간의 역사", category: "과학", file: "book5.html" },
-      { title: "이기적 유전자", category: "과학", file: "book6.html" },
-      { title: "좋은 기업을 넘어 위대한 기업으로", category: "경영", file: "book7.html" },
-      { title: "린 스타트업", category: "경영", file: "book8.html" },
-      { title: "블루오션 전략", category: "경영", file: "book9.html" },
-      { title: "1984", category: "문학", file: "book10.html" },
-      { title: "노인과 바다", category: "문학", file: "book11.html" },
-      { title: "데미안", category: "문학", file: "book12.html" },
-      { title: "사피엔스", category: "역사", file: "book13.html" },
-      { title: "역사의 연구", category: "역사", file: "book14.html" },
-      { title: "문명의 충돌", category: "역사", file: "book15.html" }
+      { title: "미라클 모닝", summary: "아침을 활용해 삶을 변화시키는 방법", category: "자기계발" },
+      { title: "그릿", summary: "끈기의 힘과 성공의 비결", category: "자기계발" },
+      { title: "역사의 연구", summary: "역사의 의미와 해석", category: "역사" },
+      { title: "사피엔스", summary: "인류의 기원과 진화", category: "과학" }
     ];
 
-    const searchInput = document.getElementById('searchInput');
-    const showAllBtn = document.getElementById('showAllBtn');
-    const bookList = document.getElementById('bookList');
+    const bookList = document.getElementById("bookList");
+    const searchInput = document.getElementById("search");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const showAllBtn = document.getElementById("showAll");
+    const recentList = document.getElementById("recentList");
+    const recentBox = document.getElementById("recentBooks");
 
-    function renderBooks(filteredBooks) {
-      bookList.innerHTML = '';
+    function highlight(text, keyword) {
+      if (!keyword) return text;
+      const regex = new RegExp(`(${keyword})`, 'gi');
+      return text.replace(regex, '<span class="highlight">$1</span>');
+    }
+
+    function renderBooks(filteredBooks, keyword = "") {
+      bookList.innerHTML = "";
       filteredBooks.forEach(book => {
-        const card = document.createElement('div');
-        card.className = 'book-card';
-
-        const link = document.createElement('a');
-        link.href = book.file;
-        link.className = 'book-title';
-        link.textContent = book.title;
-
-        const category = document.createElement('div');
-        category.className = 'book-category';
-        category.textContent = book.category;
-
-        card.appendChild(link);
-        card.appendChild(category);
-        bookList.appendChild(card);
+        const bookDiv = document.createElement("div");
+        bookDiv.className = "book";
+        bookDiv.innerHTML = `
+          <h3>${highlight(book.title, keyword)}</h3>
+          <p>${highlight(book.summary, keyword)}</p>
+          <small>📂 ${book.category}</small>
+        `;
+        bookDiv.addEventListener("click", () => addToRecent(book.title));
+        bookList.appendChild(bookDiv);
       });
     }
 
-    // 실시간 검색
-    searchInput.addEventListener('input', () => {
-      const keyword = searchInput.value.toLowerCase();
-      const filtered = books.filter(book =>
-        book.title.toLowerCase().includes(keyword) ||
-        book.category.toLowerCase().includes(keyword)
-      );
-      renderBooks(filtered);
-    });
+    function addToRecent(title) {
+      let recent = JSON.parse(localStorage.getItem("recentBooks")) || [];
+      recent = recent.filter(b => b !== title);
+      recent.unshift(title);
+      if (recent.length > 5) recent.pop();
+      localStorage.setItem("recentBooks", JSON.stringify(recent));
+      showRecent();
+    }
 
-    // 모든 책 보기 버튼
-    showAllBtn.addEventListener('click', () => {
+    function showRecent() {
+      const recent = JSON.parse(localStorage.getItem("recentBooks")) || [];
+      if (recent.length === 0) {
+        recentBox.style.display = "none";
+        return;
+      }
+      recentBox.style.display = "block";
+      recentList.innerHTML = "";
+      recent.forEach(title => {
+        const li = document.createElement("li");
+        li.textContent = title;
+        recentList.appendChild(li);
+      });
+    }
+
+    showAllBtn.addEventListener("click", () => {
       renderBooks(books);
+      showAllBtn.style.display = "none";
     });
 
-    // 기본엔 아무것도 안 보이게
-    renderBooks([]);
-  </script>
+    searchInput.addEventListener("input", () => {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const category = categoryFilter.value;
+      const filtered = books.filter(book =>
+        (book.title.toLowerCase().includes(keyword) || book.category.toLowerCase().includes(keyword)) &&
+        (category === "" || book.category === category)
+      );
+      renderBooks(filtered, keyword);
+    });
 
+    categoryFilter.addEventListener("change", () => {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const category = categoryFilter.value;
+      const filtered = books.filter(book =>
+        (book.title.toLowerCase().includes(keyword) || book.category.toLowerCase().includes(keyword)) &&
+        (category === "" || book.category === category)
+      );
+      renderBooks(filtered, keyword);
+    });
+
+    showRecent(); // 초기 로드 시 최근 본 책 표시
+  </script>
 </body>
 </html>
