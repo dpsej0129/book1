@@ -14,11 +14,11 @@
     }
     h1 {
       text-align: center;
-      color: #333;
+      color: #2c3e50;
     }
     input, select {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin-top: 10px;
       margin-bottom: 20px;
       font-size: 16px;
@@ -26,7 +26,7 @@
       border-radius: 8px;
     }
     button {
-      background: #4CAF50;
+      background: #3498db;
       color: white;
       padding: 10px 15px;
       border: none;
@@ -35,7 +35,7 @@
       margin-bottom: 20px;
     }
     button:hover {
-      background-color: #45a049;
+      background-color: #2980b9;
     }
     .book {
       background: white;
@@ -43,6 +43,7 @@
       border-radius: 8px;
       margin-bottom: 15px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
     }
     .highlight {
       background-color: yellow;
@@ -50,9 +51,12 @@
     }
     #recentBooks {
       background-color: #fff8dc;
-      padding: 10px;
+      padding: 15px;
       border-radius: 8px;
-      margin-top: 20px;
+      margin-top: 30px;
+    }
+    #recentBooks h3 {
+      margin-top: 0;
     }
   </style>
 </head>
@@ -64,8 +68,10 @@
   <select id="categoryFilter">
     <option value="">전체 카테고리</option>
     <option value="자기계발">자기계발</option>
-    <option value="역사">역사</option>
     <option value="과학">과학</option>
+    <option value="경제/경영">경제/경영</option>
+    <option value="문학">문학</option>
+    <option value="역사">역사</option>
   </select>
   <button id="showAll">모든 책 보기</button>
 
@@ -78,10 +84,21 @@
 
   <script>
     const books = [
+      { title: "아주 작은 습관의 힘", summary: "작은 습관이 만드는 큰 변화", category: "자기계발" },
       { title: "미라클 모닝", summary: "아침을 활용해 삶을 변화시키는 방법", category: "자기계발" },
       { title: "그릿", summary: "끈기의 힘과 성공의 비결", category: "자기계발" },
-      { title: "역사의 연구", summary: "역사의 의미와 해석", category: "역사" },
-      { title: "사피엔스", summary: "인류의 기원과 진화", category: "과학" }
+      { title: "코스모스", summary: "우주의 신비와 과학의 아름다움", category: "과학" },
+      { title: "시간의 역사", summary: "시간과 우주에 대한 스티븐 호킹의 통찰", category: "과학" },
+      { title: "이기적 유전자", summary: "진화와 생명의 이기적 본성", category: "과학" },
+      { title: "넛지", summary: "선택을 유도하는 부드러운 개입", category: "경제/경영" },
+      { title: "돈의 심리학", summary: "부와 인간 심리에 대한 통찰", category: "경제/경영" },
+      { title: "좋은 기업을 넘어 위대한 기업으로", summary: "위대한 기업의 공통된 성공 전략", category: "경제/경영" },
+      { title: "데미안", summary: "자아를 찾아가는 청춘의 여정", category: "문학" },
+      { title: "죄와 벌", summary: "도스토예프스키의 인간 심리에 대한 고찰", category: "문학" },
+      { title: "작별하지 않는다", summary: "김영하의 따뜻한 시선과 이별 이야기", category: "문학" },
+      { title: "총, 균, 쇠", summary: "문명의 발전과 환경의 결정적 역할", category: "역사" },
+      { title: "사피엔스", summary: "인류의 기원과 진화", category: "역사" },
+      { title: "역사의 연구", summary: "역사의 의미와 해석", category: "역사" }
     ];
 
     const bookList = document.getElementById("bookList");
@@ -161,7 +178,7 @@
       renderBooks(filtered, keyword);
     });
 
-    showRecent(); // 초기 로드 시 최근 본 책 표시
+    showRecent(); // 처음 로드시 최근 본 책 표시
   </script>
 </body>
 </html>
