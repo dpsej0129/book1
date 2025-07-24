@@ -3,155 +3,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>책 요약 & 리뷰 사이트</title>
+  <title>책 검색 & 리뷰</title>
   <style>
     body {
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #f7fafc;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
+      font-family: 'Segoe UI', sans-serif;
       max-width: 800px;
-      margin: 40px auto;
+      margin: 20px auto;
       padding: 20px;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: #f9f9f9;
     }
 
     h1 {
+      color: #2c3e50;
       text-align: center;
-      color: #2b6cb0;
       margin-bottom: 30px;
     }
 
     #searchInput {
       width: 100%;
+      padding: 12px;
       font-size: 16px;
-      padding: 12px 16px;
-      border: 1px solid #cbd5e0;
+      border: 1px solid #ccc;
       border-radius: 8px;
       margin-bottom: 20px;
       box-sizing: border-box;
-      outline: none;
-      transition: border 0.2s;
-    }
-
-    #searchInput:focus {
-      border-color: #2b6cb0;
     }
 
     #showAllBtn {
-      display: inline-block;
-      background-color: #2b6cb0;
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      background-color: #3498db;
       color: white;
-      padding: 10px 16px;
       font-size: 16px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s;
-      margin-bottom: 20px;
     }
 
     #showAllBtn:hover {
-      background-color: #2c5282;
+      background-color: #2980b9;
+    }
+
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
     }
 
     .book-card {
-      background-color: #edf2f7;
+      background: white;
+      border: 1px solid #ddd;
       padding: 16px;
       border-radius: 10px;
-      margin-bottom: 15px;
-      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
     }
 
     .book-card:hover {
-      background-color: #e2e8f0;
+      transform: scale(1.02);
     }
 
-    .book-link {
-      text-decoration: none;
-      color: #2c5282;
+    .book-title {
       font-size: 18px;
-      font-weight: 500;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      text-decoration: none;
+      display: block;
     }
 
-    .category-tag {
+    .book-category {
       font-size: 14px;
-      color: #718096;
-      margin-top: 4px;
-    }
-
-    .no-result {
-      text-align: center;
-      color: #718096;
-      margin-top: 20px;
-    }
-
-    @media (max-width: 500px) {
-      h1 {
-        font-size: 24px;
-      }
-
-      .book-link {
-        font-size: 16px;
-      }
+      color: #888;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📚 책 검색</h1>
-    <input type="text" id="searchInput" placeholder="책 제목 또는 카테고리를 입력하세요" />
-    <button id="showAllBtn">📖 모든 책 보기</button>
-    <div id="bookList"></div>
-  </div>
+
+  <h1>📚 책 검색 & 리뷰</h1>
+
+  <input type="text" id="searchInput" placeholder="책 제목이나 카테고리를 검색하세요..." />
+
+  <button id="showAllBtn">모든 책 보기</button>
+
+  <div class="book-list" id="bookList"></div>
 
   <script>
     const books = [
-      { title: "아주 작은 습관의 힘", file: "book1.html", category: "자기계발" },
-      { title: "미라클 모닝", file: "book6.html", category: "자기계발" },
-      { title: "그릿", file: "book7.html", category: "자기계발" },
-      { title: "코스모스", file: "book2.html", category: "과학" },
-      { title: "시간의 역사", file: "book8.html", category: "과학" },
-      { title: "이기적 유전자", file: "book9.html", category: "과학" },
-      { title: "넛지", file: "book3.html", category: "경제/경영" },
-      { title: "돈의 심리학", file: "book10.html", category: "경제/경영" },
-      { title: "좋은 기업을 넘어 위대한 기업으로", file: "book11.html", category: "경제/경영" },
-      { title: "데미안", file: "book4.html", category: "문학" },
-      { title: "죄와 벌", file: "book12.html", category: "문학" },
-      { title: "작별하지 않는다", file: "book13.html", category: "문학" },
-      { title: "총, 균, 쇠", file: "book5.html", category: "역사" },
-      { title: "사피엔스", file: "book14.html", category: "역사" },
-      { title: "역사의 연구", file: "book15.html", category: "역사" }
+      { title: "아주 작은 습관의 힘", category: "자기계발", file: "book1.html" },
+      { title: "미라클 모닝", category: "자기계발", file: "book2.html" },
+      { title: "그릿", category: "자기계발", file: "book3.html" },
+      { title: "코스모스", category: "과학", file: "book4.html" },
+      { title: "시간의 역사", category: "과학", file: "book5.html" },
+      { title: "이기적 유전자", category: "과학", file: "book6.html" },
+      { title: "좋은 기업을 넘어 위대한 기업으로", category: "경영", file: "book7.html" },
+      { title: "린 스타트업", category: "경영", file: "book8.html" },
+      { title: "블루오션 전략", category: "경영", file: "book9.html" },
+      { title: "1984", category: "문학", file: "book10.html" },
+      { title: "노인과 바다", category: "문학", file: "book11.html" },
+      { title: "데미안", category: "문학", file: "book12.html" },
+      { title: "사피엔스", category: "역사", file: "book13.html" },
+      { title: "역사의 연구", category: "역사", file: "book14.html" },
+      { title: "문명의 충돌", category: "역사", file: "book15.html" }
     ];
 
     const searchInput = document.getElementById('searchInput');
-    const bookList = document.getElementById('bookList');
     const showAllBtn = document.getElementById('showAllBtn');
+    const bookList = document.getElementById('bookList');
 
-    function displayBooks(filteredBooks) {
+    function renderBooks(filteredBooks) {
       bookList.innerHTML = '';
-      if (filteredBooks.length === 0) {
-        bookList.innerHTML = '<div class="no-result">검색 결과가 없습니다.</div>';
-        return;
-      }
-
       filteredBooks.forEach(book => {
         const card = document.createElement('div');
         card.className = 'book-card';
 
         const link = document.createElement('a');
         link.href = book.file;
-        link.className = 'book-link';
+        link.className = 'book-title';
         link.textContent = book.title;
 
         const category = document.createElement('div');
-        category.className = 'category-tag';
-        category.textContent = `카테고리: ${book.category}`;
+        category.className = 'book-category';
+        category.textContent = book.category;
 
         card.appendChild(link);
         card.appendChild(category);
@@ -159,20 +133,24 @@
       });
     }
 
+    // 실시간 검색
     searchInput.addEventListener('input', () => {
-      const query = searchInput.value.trim().toLowerCase();
-
+      const keyword = searchInput.value.toLowerCase();
       const filtered = books.filter(book =>
-        book.title.toLowerCase().includes(query) ||
-        book.category.toLowerCase().includes(query)
+        book.title.toLowerCase().includes(keyword) ||
+        book.category.toLowerCase().includes(keyword)
       );
-
-      displayBooks(filtered);
+      renderBooks(filtered);
     });
 
+    // 모든 책 보기 버튼
     showAllBtn.addEventListener('click', () => {
-      displayBooks(books);
+      renderBooks(books);
     });
+
+    // 기본엔 아무것도 안 보이게
+    renderBooks([]);
   </script>
+
 </body>
 </html>
