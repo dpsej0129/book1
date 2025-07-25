@@ -80,6 +80,7 @@
     <option value="문학">문학</option>
   </select>
   <button id="showAll">모든 책 보기</button>
+  <button id="toggleLikesBtn">찜한 책만 보기</button> <!-- ✅ 여기 추가 -->
 
   <div id="bookList"></div>
 
@@ -218,3 +219,89 @@
   </script>
 </body>
 </html>
+<script>
+  // 기존 코드 하단에 이어서 추가
+
+  let showOnlyLikes = false;
+
+  // 로컬스토리지에서 찜한 책 가져오기
+  function loadLikes() {
+    return JSON.parse(localStorage.getItem("likedBooks") || "[]");
+  }
+
+  // 찜 toggle
+  function toggleLike(title, btn) {
+    let likes = loadLikes();
+    if (likes.includes(title)) {
+      likes = likes.filter(t => t !== title);
+    } else {
+      likes.push(title);
+    }
+    localStorage.setItem("likedBooks", JSON.stringify(likes));
+    updateLikeButtons();
+  }
+
+  // 버튼 상태 업데이트
+  function updateLikeButtons() {
+    const likes = loadLikes();
+    document.querySelectorAll(".like-btn").forEach(btn => {
+      const title = btn.dataset.title;
+      btn.textContent = likes.includes(title) ? "❤️" : "🤍";
+    });
+  }
+
+  // 버튼 클릭 시 찜 목록 보기
+  document.getElementById("toggleLikesBtn").addEventListener("click", () => {
+    showOnlyLikes = !showOnlyLikes;
+    document.getElementById("toggleLikesBtn").textContent = showOnlyLikes ? "전체 책 보기" : "찜한 책만 보기";
+    filterBooks(); // 필터 다시 실행
+  });
+
+  // renderBooks 함수 안쪽 수정 – 좋아요 버튼 추가
+  const originalRenderBooks = renderBooks;
+  renderBooks = function(filteredBooks, keyword = "") {
+    bookList.innerHTML = "";
+    const liked = loadLikes();
+    if (showOnlyLikes) {
+      filteredBooks = filteredBooks.filter(book => liked.includes(book.title));
+    }
+
+    filteredBooks.forEach(book => {
+      const div = document.createElement("div");
+      div.className = "book";
+
+      const a = document.createElement("a");
+      a.href = book.url;
+      a.className = "book-link";
+      a.innerHTML = highlight(book.title, keyword);
+      a.title = book.summary;
+      a.addEventListener("click", () => addToRecent(book));
+
+      const p = document.createElement("p");
+      p.innerHTML = highlight(book.summary, keyword);
+
+      const small = document.createElement("small");
+      small.textContent = "📂 " + book.category;
+
+      const likeBtn = document.createElement("button");
+      likeBtn.textContent = liked.includes(book.title) ? "❤️" : "🤍";
+      likeBtn.className = "like-btn";
+      likeBtn.setAttribute("data-title", book.title);
+      likeBtn.style.marginLeft = "10px";
+      likeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleLike(book.title, likeBtn);
+        if (showOnlyLikes) filterBooks();
+      });
+
+      div.appendChild(a);
+      div.appendChild(p);
+      div.appendChild(small);
+      div.appendChild(likeBtn);
+
+      bookList.appendChild(div);
+    });
+
+    updateLikeButtons();
+  };
+</script>
